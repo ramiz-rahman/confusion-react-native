@@ -27,6 +27,7 @@ import {
   fetchLeaders
 } from '../redux/ActionCreators';
 import ReservationForm from './reservationComponent';
+import Favorites from './FavoriteComponent';
 
 const mapStateToProps = state => {
   return {};
@@ -190,6 +191,36 @@ const ReservationNavigator = createStackNavigator(
   }
 );
 
+const FavoritesNavigator = createStackNavigator(
+  {
+    Favorites: {
+      screen: Favorites,
+      navigationOptions: {
+        title: 'Favorites'
+      }
+    }
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#512DA8'
+      },
+      headerTintColor: '#FFF',
+      headerTitleStyle: {
+        color: '#fff'
+      },
+      headerLeft: (
+        <Icon
+          name="menu"
+          size={24}
+          color="white"
+          onPress={() => navigation.toggleDrawer()}
+        />
+      )
+    })
+  }
+);
+
 const CustomDrawerContentComponent = props => (
   <ScrollView>
     <SafeAreaView
@@ -261,6 +292,16 @@ const MainNavigator = createDrawerNavigator(
             size={22}
             color={tintColor}
           />
+        )
+      }
+    },
+    Favorites: {
+      screen: FavoritesNavigator,
+      navigationOptions: {
+        title: 'My Favorites',
+        drawerLabel: 'My Favorites',
+        drawerIcon: ({ tintColor }) => (
+          <Icon name="heart" type="font-awesome" size={24} color={tintColor} />
         )
       }
     },
