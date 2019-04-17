@@ -165,6 +165,22 @@ class RegisterTab extends Component {
     }
   };
 
+  getImageFromGallery = async () => {
+    const cameraRollPermission = await Permissions.askAsync(
+      Permissions.CAMERA_ROLL
+    );
+    if (cameraRollPermission.status === 'granted') {
+      let galleryImage = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3]
+      });
+
+      if (!galleryImage.cancelled) {
+        this.processImage(galleryImage.uri);
+      }
+    }
+  };
+
   static navigationOptions = {
     title: 'Register',
     tabBarIcon: ({ tintColor }) => (
@@ -201,6 +217,7 @@ class RegisterTab extends Component {
               style={styles.image}
             />
             <Button title="Camera" onPress={this.getImageFromCamera} />
+            <Button title="Gallery" onPress={this.getImageFromGallery} />
           </View>
           <Input
             placeholder="Username"
@@ -288,7 +305,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     flexDirection: 'row',
-    margin: 20
+    margin: 20,
+    justifyContent: 'space-around'
   },
   image: {
     margin: 10,
